@@ -1,4 +1,4 @@
-package br.com.zupacademy.brenonoccioli.proposta.anottations;
+package br.com.zupacademy.brenonoccioli.proposta.validacao.annotations;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Constraint(validatedBy = DocumentoValidoValidator.class)
-@Target(ElementType.FIELD)
+@Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DocumentoValido {
 

@@ -1,6 +1,5 @@
 package br.com.zupacademy.brenonoccioli.proposta.controller.dto;
 
-import br.com.zupacademy.brenonoccioli.proposta.anottations.DocumentoValido;
 import br.com.zupacademy.brenonoccioli.proposta.model.Proposta;
 
 import javax.validation.constraints.Email;
@@ -12,7 +11,6 @@ import java.math.BigDecimal;
 public class NovaPropostaForm {
 
     @NotBlank
-    @DocumentoValido
     private String documento;
 
     @NotBlank

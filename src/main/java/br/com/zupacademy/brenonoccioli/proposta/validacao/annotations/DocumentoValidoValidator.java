@@ -1,4 +1,4 @@
-package br.com.zupacademy.brenonoccioli.proposta.anottations;
+package br.com.zupacademy.brenonoccioli.proposta.validacao.annotations;
 
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CNPJValidator;
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
@@ -7,6 +7,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class DocumentoValidoValidator implements ConstraintValidator<DocumentoValido, String> {
+
     private final CPFValidator cpfValidator = new CPFValidator();
     private final CNPJValidator cnpjValidator = new CNPJValidator();
 

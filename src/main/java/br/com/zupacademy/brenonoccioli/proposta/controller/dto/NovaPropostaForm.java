@@ -1,16 +1,20 @@
 package br.com.zupacademy.brenonoccioli.proposta.controller.dto;
 
 import br.com.zupacademy.brenonoccioli.proposta.model.Proposta;
+import br.com.zupacademy.brenonoccioli.proposta.repository.PropostaRepository;
+import br.com.zupacademy.brenonoccioli.proposta.validacao.annotations.DocumentoValido;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
+import java.util.Optional;
 
 public class NovaPropostaForm {
 
     @NotBlank
+    @DocumentoValido
     private String documento;
 
     @NotBlank
@@ -37,5 +41,19 @@ public class NovaPropostaForm {
 
     public Proposta toModel(){
         return new Proposta(documento, email, nome, endereco, salario);
+    }
+
+    public String getDocumento() {
+        return documento;
+    }
+
+    public boolean documentoJaExiste(PropostaRepository repository){
+        Optional<Proposta> possivelDoc = repository.findByDocumento(documento);
+
+        if(possivelDoc.isPresent()){
+            return true;
+        }
+
+        return false;
     }
 }

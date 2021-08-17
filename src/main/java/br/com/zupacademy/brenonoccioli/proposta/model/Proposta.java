@@ -32,6 +32,9 @@ public class Proposta {
     @Column(nullable = false)
     private BigDecimal salario;
 
+    @Deprecated
+    public Proposta(){}
+
     public Proposta(String documento, String email, String nome, String endereco, BigDecimal salario) {
         this.documento = documento;
         this.email = email;

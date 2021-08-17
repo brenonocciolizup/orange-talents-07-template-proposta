@@ -47,6 +47,15 @@ public class NovaPropostaForm {
         return documento;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+
     public boolean documentoJaExiste(PropostaRepository repository){
         Optional<Proposta> possivelDoc = repository.findByDocumento(documento);
 

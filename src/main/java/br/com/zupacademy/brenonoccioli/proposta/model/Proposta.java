@@ -1,5 +1,7 @@
 package br.com.zupacademy.brenonoccioli.proposta.model;
 
+import br.com.zupacademy.brenonoccioli.proposta.controller.dto.ResultadoSolicitacao;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -32,6 +34,9 @@ public class Proposta {
     @Column(nullable = false)
     private BigDecimal salario;
 
+    @Enumerated
+    private StatusProposta status;
+
     @Deprecated
     public Proposta(){}
 
@@ -45,5 +50,18 @@ public class Proposta {
 
     public Long getId() {
         return id;
+    }
+
+    public String getDocumento() {
+        return documento;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    //seta o status da proposta de acordo com o retorno resultado da solicitação
+    public void atualizaStatus(ResultadoSolicitacao resultado) {
+        this.status = resultado.getStatusProposta();
     }
 }

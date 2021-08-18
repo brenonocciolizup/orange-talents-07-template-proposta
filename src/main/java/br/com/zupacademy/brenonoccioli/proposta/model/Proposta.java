@@ -34,8 +34,8 @@ public class Proposta {
     @Column(nullable = false)
     private BigDecimal salario;
 
-    @Enumerated
-    private StatusProposta status;
+    @Enumerated(EnumType.STRING)
+    private StatusProposta status = StatusProposta.EM_ANALISE;
 
     @Deprecated
     public Proposta(){}
@@ -60,7 +60,7 @@ public class Proposta {
         return nome;
     }
 
-    //seta o status da proposta de acordo com o retorno resultado da solicitação
+    //seta o status da proposta de acordo com o resultado da solicitação
     public void atualizaStatus(ResultadoSolicitacao resultado) {
         this.status = resultado.getStatusProposta();
     }

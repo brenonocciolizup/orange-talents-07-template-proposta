@@ -1,5 +1,6 @@
 package br.com.zupacademy.brenonoccioli.proposta.validacao;
 
+import br.com.zupacademy.brenonoccioli.proposta.validacao.annotations.ErroPadronizadoApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @RestControllerAdvice
@@ -31,5 +33,15 @@ public class ErrosFormHandler {
         });
 
         return ResponseEntity.status(400).body(dto);
+    }
+
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity<ErroPadronizadoApi> apiExceptionHandler(ApiException apiException){
+        Collection<String> messages = new ArrayList<>();
+        messages.add(apiException.getReason());
+
+        ErroPadronizadoApi erros = new ErroPadronizadoApi(messages);
+
+        return ResponseEntity.status(apiException.getHttpStatus()).body(erros);
     }
 }

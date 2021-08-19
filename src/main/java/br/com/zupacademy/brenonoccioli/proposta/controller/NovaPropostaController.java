@@ -5,6 +5,7 @@ import br.com.zupacademy.brenonoccioli.proposta.controller.dto.NovaPropostaForm;
 import br.com.zupacademy.brenonoccioli.proposta.controller.dto.ResultadoSolicitacao;
 import br.com.zupacademy.brenonoccioli.proposta.controller.dto.SolicitacaoAnaliseForm;
 import br.com.zupacademy.brenonoccioli.proposta.model.Proposta;
+import br.com.zupacademy.brenonoccioli.proposta.model.StatusProposta;
 import br.com.zupacademy.brenonoccioli.proposta.repository.PropostaRepository;
 import br.com.zupacademy.brenonoccioli.proposta.utils.ExecutaTransacao;
 import feign.FeignException;
@@ -15,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/propostas")
@@ -26,7 +27,7 @@ public class NovaPropostaController {
     @Autowired
     PropostaRepository propostaRepository;
     @Autowired
-    AvaliacaoDadosSolicitante client;
+    AvaliacaoDadosSolicitanteClient client;
     @Autowired
     ExecutaTransacao executor;
 
@@ -55,6 +56,9 @@ public class NovaPropostaController {
                             "Erro durante ao avaliar da proposta, tente novamente mais tarde");
                 }
             }
+
+        List<Proposta> lista = propostaRepository.findAllByCartaoIsNullAndStatusIs(StatusProposta.ELEGIVEL);
+            System.out.println(lista.toString());
 
         URI uri = builder.path("/propostas/{id}").buildAndExpand(proposta.getId()).toUri();
         return ResponseEntity.created(uri).build();

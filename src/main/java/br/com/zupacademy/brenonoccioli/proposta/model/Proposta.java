@@ -37,10 +37,14 @@ public class Proposta {
     @Enumerated(EnumType.STRING)
     private StatusProposta status = StatusProposta.EM_ANALISE;
 
+    @OneToOne(mappedBy = "proposta", cascade = CascadeType.ALL)
+    private Cartao cartao;
+
     @Deprecated
     public Proposta(){}
 
-    public Proposta(String documento, String email, String nome, String endereco, BigDecimal salario) {
+    public Proposta(String documento, String email, String nome, String endereco,
+                    BigDecimal salario) {
         this.documento = documento;
         this.email = email;
         this.nome = nome;
@@ -60,8 +64,16 @@ public class Proposta {
         return nome;
     }
 
+    public Cartao getCartao() {
+        return cartao;
+    }
+
     //seta o status da proposta de acordo com o resultado da solicitação
     public void atualizaStatus(ResultadoSolicitacao resultado) {
         this.status = resultado.getStatusProposta();
+    }
+
+    public void associaCartao(Cartao cartao) {
+        this.cartao = cartao;
     }
 }

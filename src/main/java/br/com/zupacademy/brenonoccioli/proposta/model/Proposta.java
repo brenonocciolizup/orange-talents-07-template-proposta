@@ -73,8 +73,8 @@ public class Proposta {
     }
 
     //seta o status da proposta de acordo com o resultado da solicitação
-    public void atualizaStatus(ResultadoSolicitacao resultado) {
-        this.status = resultado.getStatusProposta();
+    public void atualizaStatus(StatusProposta status) {
+        this.status = status;
     }
 
     public void associaCartao(Cartao cartao) {

@@ -4,5 +4,6 @@ public enum StatusProposta {
 
     ELEGIVEL,
     NAO_ELEGIVEL,
-    EM_ANALISE
+    EM_ANALISE,
+    CARTAO_VINCULADO
 }

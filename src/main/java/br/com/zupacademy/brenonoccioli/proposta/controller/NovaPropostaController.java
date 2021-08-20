@@ -47,16 +47,16 @@ public class NovaPropostaController {
                 SolicitacaoAnaliseForm solicitacaoAnalise = new SolicitacaoAnaliseForm(proposta);
                 //faz a requisição ao serviço externo
                 AnaliseDto resultado = client.avalia(solicitacaoAnalise);
-                proposta.atualizaStatus(resultado.getResultadoSolicitacao());
+                proposta.atualizaStatus(resultado.getResultadoSolicitacao().getStatusProposta());
                 executor.atualizaEComita(proposta);
             } catch (FeignException e) {
                 log.error(e.getMessage());
                 if (e.status() == HttpStatus.UNPROCESSABLE_ENTITY.value()) {
-                    proposta.atualizaStatus(ResultadoSolicitacao.COM_RESTRICAO);
+                    proposta.atualizaStatus(ResultadoSolicitacao.COM_RESTRICAO.getStatusProposta());
                     executor.atualizaEComita(proposta);
                 } else {
                     throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                            "Erro durante ao avaliar da proposta, tente novamente mais tarde");
+                            "Erro ao avaliar proposta, tente novamente mais tarde");
                 }
             }
 

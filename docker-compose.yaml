@@ -44,18 +44,18 @@ services:
     volumes:
       - mysql-volume:/var/lib/mysql
 
-  propostasapi:
-    image: 'brenonoccioli/propostas'
-    ports:
-      - 8081:8080
-    depends_on:
-      - mysqlsrv
-    environment:
-      DATASOURCE_URL: jdbc:mysql://mysqlsrv:3306/proposta?serverTimezone=UTC
-      DATASOURCE_USER: root
-      DATASOURCE_PASSWORD: MySql2019!
-      CARTOES_URL: http://contas:8888
-      AVALIACAO_URL: http://analise:9999
+#  propostasapi:
+#    image: 'brenonoccioli/propostas'
+#    ports:
+#      - 8081:8080
+#    depends_on:
+#      - mysqlsrv
+#    environment:
+#      DATASOURCE_URL: jdbc:mysql://mysqlsrv:3306/proposta?serverTimezone=UTC
+#      DATASOURCE_USER: root
+#      DATASOURCE_PASSWORD: MySql2019!
+#      CARTOES_URL: http://contas:8888
+#      AVALIACAO_URL: http://analise:9999
 
 
   keycloak:

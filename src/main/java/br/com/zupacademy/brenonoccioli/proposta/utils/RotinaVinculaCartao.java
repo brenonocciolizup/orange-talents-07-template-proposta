@@ -39,6 +39,7 @@ public class RotinaVinculaCartao {
                 CartaoDto cartaoDto = client.obtemCartao(proposta.getId().toString());
                 Cartao cartao = cartaoDto.toModel(proposta);
                 proposta.associaCartao(cartao);
+                proposta.atualizaStatus(StatusProposta.CARTAO_VINCULADO);
                 executaTransacao.atualizaEComita(proposta);
 
                 log.info("Vinculacao concluida com sucesso - proposta: " + proposta.getId());

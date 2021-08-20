@@ -6,6 +6,8 @@ import br.com.zupacademy.brenonoccioli.proposta.model.StatusProposta;
 import br.com.zupacademy.brenonoccioli.proposta.repository.PropostaRepository;
 import br.com.zupacademy.brenonoccioli.proposta.utils.ExecutaTransacao;
 import feign.FeignException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,8 @@ public class NovaPropostaController {
     @PostMapping
     public ResponseEntity criaNovaProposta(@RequestBody @Valid NovaPropostaForm form, UriComponentsBuilder builder){
 
+        Logger log = LoggerFactory.getLogger(NovaPropostaController.class);
+
         if(form.documentoJaExiste(propostaRepository)){
             return ResponseEntity.status(422).body("Apenas uma proposta por documento!");
         }
@@ -46,6 +50,7 @@ public class NovaPropostaController {
                 proposta.atualizaStatus(resultado.getResultadoSolicitacao());
                 executor.atualizaEComita(proposta);
             } catch (FeignException e) {
+                log.error(e.getMessage());
                 if (e.status() == HttpStatus.UNPROCESSABLE_ENTITY.value()) {
                     proposta.atualizaStatus(ResultadoSolicitacao.COM_RESTRICAO);
                     executor.atualizaEComita(proposta);

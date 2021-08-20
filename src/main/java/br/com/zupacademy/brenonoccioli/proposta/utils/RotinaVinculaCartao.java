@@ -46,5 +46,6 @@ public class RotinaVinculaCartao {
                 log.error("Falha na vinculação do cartão à proposta " + proposta.getId());
             }
         });
+        log.info("Final da rotina de vinculação de cartões");
     }
 }

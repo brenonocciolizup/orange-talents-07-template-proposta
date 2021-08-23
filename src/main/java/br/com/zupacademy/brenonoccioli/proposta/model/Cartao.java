@@ -3,11 +3,17 @@ package br.com.zupacademy.brenonoccioli.proposta.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Cartao {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String numeroCartao;
 
     private LocalDateTime emitidoEm;
 
@@ -23,12 +29,15 @@ public class Cartao {
     @JoinColumn(name = "idProposta")
     private Proposta proposta;
 
+    @OneToMany(mappedBy = "cartao", cascade = {CascadeType.ALL})
+    private List<Biometria> biometrias = new ArrayList<>();
+
     @Deprecated
     public Cartao(){}
 
     public Cartao(String id, LocalDateTime emitidoEm, String titular,
                   Integer limite, Vencimento vencimento, Proposta proposta) {
-        this.id = id;
+        this.numeroCartao = id;
         this.emitidoEm = emitidoEm;
         this.titular = titular;
         this.limite = limite;
@@ -36,8 +45,8 @@ public class Cartao {
         this.proposta = proposta;
     }
 
-    public String getId() {
-        return id;
+    public String getNumeroCartao() {
+        return numeroCartao;
     }
 
     public LocalDateTime getEmitidoEm() {
@@ -58,6 +67,10 @@ public class Cartao {
 
     public Proposta getProposta() {
         return proposta;
+    }
+
+    public List<Biometria> getBiometrias() {
+        return biometrias;
     }
 }
 

@@ -1,6 +1,8 @@
 package br.com.zupacademy.brenonoccioli.proposta.controller;
 
 import br.com.zupacademy.brenonoccioli.proposta.controller.dto.*;
+import br.com.zupacademy.brenonoccioli.proposta.controller.form.NovaPropostaForm;
+import br.com.zupacademy.brenonoccioli.proposta.controller.form.SolicitacaoAnaliseForm;
 import br.com.zupacademy.brenonoccioli.proposta.model.Proposta;
 import br.com.zupacademy.brenonoccioli.proposta.model.StatusProposta;
 import br.com.zupacademy.brenonoccioli.proposta.repository.PropostaRepository;
@@ -32,7 +34,8 @@ public class NovaPropostaController {
     ExecutaTransacao executor;
 
     @PostMapping
-    public ResponseEntity criaNovaProposta(@RequestBody @Valid NovaPropostaForm form, UriComponentsBuilder builder){
+    public ResponseEntity criaNovaProposta(@RequestBody @Valid NovaPropostaForm form,
+                                           UriComponentsBuilder builder){
 
         Logger log = LoggerFactory.getLogger(NovaPropostaController.class);
 

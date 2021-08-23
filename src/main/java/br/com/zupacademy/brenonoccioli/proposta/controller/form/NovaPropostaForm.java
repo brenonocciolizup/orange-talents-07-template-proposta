@@ -1,4 +1,4 @@
-package br.com.zupacademy.brenonoccioli.proposta.controller.dto;
+package br.com.zupacademy.brenonoccioli.proposta.controller.form;
 
 import br.com.zupacademy.brenonoccioli.proposta.model.Proposta;
 import br.com.zupacademy.brenonoccioli.proposta.repository.PropostaRepository;

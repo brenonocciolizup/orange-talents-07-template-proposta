@@ -54,8 +54,8 @@ services:
 #      DATASOURCE_URL: jdbc:mysql://mysqlsrv:3306/proposta?serverTimezone=UTC
 #      DATASOURCE_USER: root
 #      DATASOURCE_PASSWORD: MySql2019!
-#      CARTOES_URL: http://contas:8888
-#      AVALIACAO_URL: http://analise:9999
+#      CARTOES_URL: http://contas:8888/api
+#      AVALIACAO_URL: http://analise:9999/api
 
 
   keycloak:
@@ -99,12 +99,15 @@ services:
 
   contas:
     image: 'zupacademy/contas'
+    volumes:
+      - contas-volume:/var/lib/contas
     ports:
       - 8888:8888
     environment:
       SERVER_PORT: 8888
       LOG_LEVEL: INFO
       JAEGER_ENDPOINT: http://jaeger:14268/api/traces
+
 
   transacoes:
     image: 'zupacademy/transacoes'
@@ -163,3 +166,4 @@ volumes:
   prometheus-volume:
   postgres-volume:
   mysql-volume:
+  contas-volume:

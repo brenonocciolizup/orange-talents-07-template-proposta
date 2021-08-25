@@ -61,7 +61,7 @@ public class CartaoController {
             return ResponseEntity.unprocessableEntity().body("cartão já está bloquado");
         }
 
-        cartao.bloqueia(xForwardedFor, userAgent);
+        cartao.solicitaBloqueio(xForwardedFor, userAgent);
         executaTransacao.atualizaEComita(cartao);
 
         return ResponseEntity.ok().build();

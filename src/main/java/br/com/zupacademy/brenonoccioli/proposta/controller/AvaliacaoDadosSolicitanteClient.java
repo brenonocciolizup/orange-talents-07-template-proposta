@@ -10,6 +10,6 @@ import javax.validation.Valid;
 
 @FeignClient(name = "avaliaClientes", url = "${avaliacao.client.url}")
 public interface AvaliacaoDadosSolicitanteClient {
-    @PostMapping("/api/solicitacao")
+    @PostMapping("/solicitacao")
     AnaliseDto avalia(@RequestBody @Valid SolicitacaoAnaliseForm form);
 }

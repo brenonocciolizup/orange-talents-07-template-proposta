@@ -1,5 +1,7 @@
 package br.com.zupacademy.brenonoccioli.proposta.model;
 
+import br.com.zupacademy.brenonoccioli.proposta.controller.dto.BloqueioDto;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -53,6 +55,10 @@ public class Cartao {
         this.status = StatusCartao.ATIVO;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getNumeroCartao() {
         return numeroCartao;
     }
@@ -88,9 +94,13 @@ public class Cartao {
         return false;
     }
 
-    public void bloqueia(String xForwardedFor, String userAgent) {
+    public void solicitaBloqueio(String xForwardedFor, String userAgent) {
         BloqueioCartao bloqueio = new BloqueioCartao(xForwardedFor, userAgent, this);
         this.bloqueios.add(bloqueio);
+        this.status = StatusCartao.BLOQUEIO_SOLICITADO;
+    }
+
+    public void bloqueia(){
         this.status = StatusCartao.BLOQUEADO;
     }
 }

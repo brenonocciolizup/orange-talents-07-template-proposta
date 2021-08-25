@@ -28,7 +28,7 @@ public class RotinaVinculaCartao {
 
     @Scheduled(fixedDelay = 60000)
     public void vinculaCartao(){
-        log.info("Inicio da rotina de vinculação de cartões");
+        log.info("Início da rotina de vinculação de cartões");
 
         List<Proposta> propostasElegiveisSemCartao = propostaRepository
                 .findAllByCartaoIsNullAndStatusIs(StatusProposta.ELEGIVEL);

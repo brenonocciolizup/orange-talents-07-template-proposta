@@ -1,5 +1,6 @@
 package br.com.zupacademy.brenonoccioli.proposta.controller;
 
+import br.com.zupacademy.brenonoccioli.proposta.config.metricas.MetricasPrometheus;
 import br.com.zupacademy.brenonoccioli.proposta.controller.dto.*;
 import br.com.zupacademy.brenonoccioli.proposta.controller.form.NovaPropostaForm;
 import br.com.zupacademy.brenonoccioli.proposta.controller.form.SolicitacaoAnaliseForm;
@@ -32,6 +33,8 @@ public class NovaPropostaController {
     AvaliacaoDadosSolicitanteClient client;
     @Autowired
     ExecutaTransacao executor;
+    @Autowired
+    MetricasPrometheus metricas;
 
     @PostMapping
     public ResponseEntity criaNovaProposta(@RequestBody @Valid NovaPropostaForm form,
@@ -63,8 +66,8 @@ public class NovaPropostaController {
                 }
             }
 
+        metricas.contadorDePropostas();
         List<Proposta> lista = propostaRepository.findAllByCartaoIsNullAndStatusIs(StatusProposta.ELEGIVEL);
-            System.out.println(lista.toString());
 
         URI uri = builder.path("/propostas/{id}").buildAndExpand(proposta.getId()).toUri();
         return ResponseEntity.created(uri).build();

@@ -44,4 +44,26 @@ public class CartaoController {
         URI uri = builder.path("/biometrias/{id}").buildAndExpand(biometria.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
+
+    @PostMapping("/{id}/bloqueio")
+    public ResponseEntity bloqueioDeCartao(@PathVariable("id") Long id,
+                                 @RequestHeader("X-Forwarded-For") String xForwardedFor,
+                                 @RequestHeader("User-Agent") String userAgent){
+
+        Optional<Cartao> cartaoOptional = cartaoRepository.findById(id);
+        if(cartaoOptional.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        Cartao cartao = cartaoOptional.get();
+
+        if(cartao.estaBloqueado()){
+            return ResponseEntity.unprocessableEntity().body("cartão já está bloquado");
+        }
+
+        cartao.bloqueia(xForwardedFor, userAgent);
+        executaTransacao.atualizaEComita(cartao);
+
+        return ResponseEntity.ok().build();
+    }
 }

@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Cartao {
@@ -32,6 +33,12 @@ public class Cartao {
     @OneToMany(mappedBy = "cartao", cascade = {CascadeType.ALL})
     private List<Biometria> biometrias = new ArrayList<>();
 
+    @Enumerated
+    private StatusCartao status;
+
+    @OneToMany(mappedBy = "cartao", cascade = {CascadeType.ALL})
+    private List<BloqueioCartao> bloqueios = new ArrayList<>();
+
     @Deprecated
     public Cartao(){}
 
@@ -43,6 +50,7 @@ public class Cartao {
         this.limite = limite;
         this.vencimento = vencimento;
         this.proposta = proposta;
+        this.status = StatusCartao.ATIVO;
     }
 
     public String getNumeroCartao() {
@@ -71,6 +79,19 @@ public class Cartao {
 
     public List<Biometria> getBiometrias() {
         return biometrias;
+    }
+
+    public boolean estaBloqueado() {
+        if(status == StatusCartao.BLOQUEADO || status == StatusCartao.BLOQUEIO_SOLICITADO){
+            return true;
+        }
+        return false;
+    }
+
+    public void bloqueia(String xForwardedFor, String userAgent) {
+        BloqueioCartao bloqueio = new BloqueioCartao(xForwardedFor, userAgent, this);
+        this.bloqueios.add(bloqueio);
+        this.status = StatusCartao.BLOQUEADO;
     }
 }
 

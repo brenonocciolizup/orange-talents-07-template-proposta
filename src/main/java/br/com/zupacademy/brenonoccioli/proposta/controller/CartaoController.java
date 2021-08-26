@@ -1,12 +1,15 @@
 package br.com.zupacademy.brenonoccioli.proposta.controller;
 
+import br.com.zupacademy.brenonoccioli.proposta.controller.dto.AvisoDto;
 import br.com.zupacademy.brenonoccioli.proposta.controller.form.AvisoViagemForm;
 import br.com.zupacademy.brenonoccioli.proposta.controller.form.BiometriaForm;
+import br.com.zupacademy.brenonoccioli.proposta.controller.form.ConfirmaAvisoForm;
 import br.com.zupacademy.brenonoccioli.proposta.model.AvisoViagem;
 import br.com.zupacademy.brenonoccioli.proposta.model.Biometria;
 import br.com.zupacademy.brenonoccioli.proposta.model.Cartao;
 import br.com.zupacademy.brenonoccioli.proposta.repository.CartaoRepository;
 import br.com.zupacademy.brenonoccioli.proposta.utils.ExecutaTransacao;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +17,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("/cartoes")
@@ -27,6 +28,8 @@ public class CartaoController {
     CartaoRepository cartaoRepository;
     @Autowired
     ExecutaTransacao executaTransacao;
+    @Autowired
+    CartaoClient client;
 
 
     @PostMapping("/{idCartao}/biometrias")
@@ -81,10 +84,16 @@ public class CartaoController {
         }
 
         Cartao cartao = cartaoOptional.get();
+
+        try{
+            ConfirmaAvisoForm confirmaForm = new ConfirmaAvisoForm(form);
+            client.confirmaAvisoViagem(cartao.getNumeroCartao(), confirmaForm);
+        } catch (FeignException e){
+            return ResponseEntity.status(e.status()).body("solicitação não processada");
+        }
+
         AvisoViagem aviso = form.toModel(xForwardedFor, userAgent, cartao);
         executaTransacao.salvaEComita(aviso);
-
         return ResponseEntity.ok().build();
-
     }
 }

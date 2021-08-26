@@ -2,10 +2,7 @@ package br.com.zupacademy.brenonoccioli.proposta.controller.form;
 
 import br.com.zupacademy.brenonoccioli.proposta.model.AvisoViagem;
 import br.com.zupacademy.brenonoccioli.proposta.model.Cartao;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.swing.*;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -17,11 +14,11 @@ public class AvisoViagemForm {
 
     @NotNull
     @Future
-    private LocalDate terminaEm;
+    private LocalDate validoAte;
 
-    public AvisoViagemForm(String destino, LocalDate terminaEm) {
+    public AvisoViagemForm(String destino, LocalDate validoAte) {
         this.destino = destino;
-        this.terminaEm = terminaEm;
+        this.validoAte = validoAte;
     }
 
     public AvisoViagem toModel(String xForwardedFor, String userAgent, Cartao cartao){
@@ -32,7 +29,7 @@ public class AvisoViagemForm {
         return destino;
     }
 
-    public LocalDate getTerminaEm() {
-        return terminaEm;
+    public LocalDate getValidoAte() {
+        return validoAte;
     }
 }

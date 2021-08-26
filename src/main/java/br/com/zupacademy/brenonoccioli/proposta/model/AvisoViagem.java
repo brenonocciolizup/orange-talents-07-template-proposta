@@ -21,7 +21,7 @@ public class AvisoViagem {
 
     @NotNull
     @Future
-    private LocalDate terminaEm;
+    private LocalDate validoAte;
 
     @NotNull
     private LocalDateTime avisadoEm = LocalDateTime.now();
@@ -41,7 +41,7 @@ public class AvisoViagem {
 
     public AvisoViagem(AvisoViagemForm aviso, String xForwardedFor, String userAgent, Cartao cartao) {
         this.destino = aviso.getDestino();
-        this.terminaEm = aviso.getTerminaEm();
+        this.validoAte = aviso.getValidoAte();
         this.enderecoIP = xForwardedFor;
         this.userAgent = userAgent;
         this.cartao = cartao;
@@ -51,8 +51,8 @@ public class AvisoViagem {
         return destino;
     }
 
-    public LocalDate getTerminaEm() {
-        return terminaEm;
+    public LocalDate getValidoAte() {
+        return validoAte;
     }
 
     public LocalDateTime getAvisadoEm() {

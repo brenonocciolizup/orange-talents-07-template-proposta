@@ -26,7 +26,7 @@ public class RotinaVinculaCartao {
 
     Logger log = LoggerFactory.getLogger(RotinaVinculaCartao.class);
 
-    @Scheduled(fixedDelay = 60000)
+    @Scheduled(fixedDelay = 30000)
     public void vinculaCartao(){
         log.info("Início da rotina de vinculação de cartões");
 

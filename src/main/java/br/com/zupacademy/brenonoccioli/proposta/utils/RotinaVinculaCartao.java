@@ -1,6 +1,6 @@
 package br.com.zupacademy.brenonoccioli.proposta.utils;
 
-import br.com.zupacademy.brenonoccioli.proposta.controller.ConsultaCartaoClient;
+import br.com.zupacademy.brenonoccioli.proposta.controller.CartaoClient;
 import br.com.zupacademy.brenonoccioli.proposta.controller.dto.CartaoDto;
 import br.com.zupacademy.brenonoccioli.proposta.model.Cartao;
 import br.com.zupacademy.brenonoccioli.proposta.model.Proposta;
@@ -20,7 +20,7 @@ public class RotinaVinculaCartao {
     @Autowired
     PropostaRepository propostaRepository;
     @Autowired
-    ConsultaCartaoClient client;
+    CartaoClient client;
     @Autowired
     ExecutaTransacao executaTransacao;
 

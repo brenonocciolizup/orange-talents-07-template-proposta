@@ -7,7 +7,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 @FeignClient(name="consultaCartao", url="${cartoes.client.url}")
-public interface ConsultaCartaoClient {
+public interface CartaoClient {
     @GetMapping("/cartoes")
     CartaoDto obtemCartao(@RequestParam String idProposta);
 

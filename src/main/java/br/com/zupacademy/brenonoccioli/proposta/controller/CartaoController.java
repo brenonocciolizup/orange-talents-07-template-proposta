@@ -1,6 +1,8 @@
 package br.com.zupacademy.brenonoccioli.proposta.controller;
 
+import br.com.zupacademy.brenonoccioli.proposta.controller.form.AvisoViagemForm;
 import br.com.zupacademy.brenonoccioli.proposta.controller.form.BiometriaForm;
+import br.com.zupacademy.brenonoccioli.proposta.model.AvisoViagem;
 import br.com.zupacademy.brenonoccioli.proposta.model.Biometria;
 import br.com.zupacademy.brenonoccioli.proposta.model.Cartao;
 import br.com.zupacademy.brenonoccioli.proposta.repository.CartaoRepository;
@@ -65,5 +67,24 @@ public class CartaoController {
         executaTransacao.atualizaEComita(cartao);
 
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{id}/avisos")
+    public ResponseEntity avisaViagem(@PathVariable("id") Long id,
+                            @RequestHeader("X-Forwarded-For") String xForwardedFor,
+                            @RequestHeader("User-Agent") String userAgent,
+                            @RequestBody @Valid AvisoViagemForm form){
+
+        Optional<Cartao> cartaoOptional = cartaoRepository.findById(id);
+        if(cartaoOptional.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        Cartao cartao = cartaoOptional.get();
+        AvisoViagem aviso = form.toModel(xForwardedFor, userAgent, cartao);
+        executaTransacao.salvaEComita(aviso);
+
+        return ResponseEntity.ok().build();
+
     }
 }

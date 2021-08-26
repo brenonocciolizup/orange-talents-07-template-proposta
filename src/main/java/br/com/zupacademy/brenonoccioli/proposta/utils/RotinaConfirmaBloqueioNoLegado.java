@@ -1,6 +1,6 @@
 package br.com.zupacademy.brenonoccioli.proposta.utils;
 
-import br.com.zupacademy.brenonoccioli.proposta.controller.ConsultaCartaoClient;
+import br.com.zupacademy.brenonoccioli.proposta.controller.CartaoClient;
 import br.com.zupacademy.brenonoccioli.proposta.controller.dto.BloqueioDto;
 import br.com.zupacademy.brenonoccioli.proposta.controller.form.BloqueioForm;
 import br.com.zupacademy.brenonoccioli.proposta.model.Cartao;
@@ -19,7 +19,7 @@ import java.util.List;
 @Component
 public class RotinaConfirmaBloqueioNoLegado {
     @Autowired
-    ConsultaCartaoClient client;
+    CartaoClient client;
     @Autowired
     CartaoRepository repository;
     @Autowired

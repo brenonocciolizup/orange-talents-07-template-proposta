@@ -109,7 +109,7 @@ public class CartaoController {
             ConfirmaCarteiraForm confirmaForm = new ConfirmaCarteiraForm(form);
             client.confirmaAssociacaoCarteira(cartao.getNumeroCartao(), confirmaForm);
         }catch (FeignException e){
-            return ResponseEntity.status(e.status()).body("Associação de carteira não pôde ser realizada");
+            return ResponseEntity.status(e.status()).body("Falha ao associar carteira");
         }
 
         Carteira carteira = form.toModel(cartao);

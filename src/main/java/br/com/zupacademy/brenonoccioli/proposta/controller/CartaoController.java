@@ -1,12 +1,11 @@
 package br.com.zupacademy.brenonoccioli.proposta.controller;
 
 import br.com.zupacademy.brenonoccioli.proposta.controller.dto.AvisoDto;
-import br.com.zupacademy.brenonoccioli.proposta.controller.form.AvisoViagemForm;
-import br.com.zupacademy.brenonoccioli.proposta.controller.form.BiometriaForm;
-import br.com.zupacademy.brenonoccioli.proposta.controller.form.ConfirmaAvisoForm;
+import br.com.zupacademy.brenonoccioli.proposta.controller.form.*;
 import br.com.zupacademy.brenonoccioli.proposta.model.AvisoViagem;
 import br.com.zupacademy.brenonoccioli.proposta.model.Biometria;
 import br.com.zupacademy.brenonoccioli.proposta.model.Cartao;
+import br.com.zupacademy.brenonoccioli.proposta.model.Carteira;
 import br.com.zupacademy.brenonoccioli.proposta.repository.CartaoRepository;
 import br.com.zupacademy.brenonoccioli.proposta.utils.ExecutaTransacao;
 import feign.FeignException;
@@ -95,5 +94,28 @@ public class CartaoController {
         AvisoViagem aviso = form.toModel(xForwardedFor, userAgent, cartao);
         executaTransacao.salvaEComita(aviso);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{id}/carteiras")
+    public ResponseEntity associaCarteira(@PathVariable Long id, @RequestBody @Valid CarteiraForm form,
+                                          UriComponentsBuilder builder){
+        Optional<Cartao> cartaoOptional = cartaoRepository.findById(id);
+        if(cartaoOptional.isEmpty()) return ResponseEntity.notFound().build();
+
+        Cartao cartao = cartaoOptional.get();
+        if(cartao.carteiraJaAssociada(form.getCarteira())) return ResponseEntity.unprocessableEntity().build();
+
+        try{
+            ConfirmaCarteiraForm confirmaForm = new ConfirmaCarteiraForm(form);
+            client.confirmaAssociacaoCarteira(cartao.getNumeroCartao(), confirmaForm);
+        }catch (FeignException e){
+            return ResponseEntity.status(e.status()).body("Associação de carteira não pôde ser realizada");
+        }
+
+        Carteira carteira = form.toModel(cartao);
+        executaTransacao.salvaEComita(carteira);
+
+        URI uri = builder.path("/carteiras/{id}").buildAndExpand(carteira.getId()).toUri();
+        return ResponseEntity.ok().body(uri);
     }
 }

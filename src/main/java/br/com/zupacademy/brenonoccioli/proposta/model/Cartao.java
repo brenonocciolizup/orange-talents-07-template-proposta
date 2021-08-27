@@ -5,9 +5,7 @@ import br.com.zupacademy.brenonoccioli.proposta.controller.dto.BloqueioDto;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 public class Cartao {
@@ -43,6 +41,9 @@ public class Cartao {
 
     @OneToMany(mappedBy = "cartao", cascade = CascadeType.ALL)
     private List<AvisoViagem> avisosViagem = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cartao", cascade = CascadeType.ALL)
+    private Set<Carteira> carteiras = new HashSet<>();
 
     @Deprecated
     public Cartao(){}
@@ -94,6 +95,10 @@ public class Cartao {
         return avisosViagem;
     }
 
+    public Set<Carteira> getCarteiras() {
+        return carteiras;
+    }
+
     public boolean estaBloqueado() {
         if(status == StatusCartao.BLOQUEADO || status == StatusCartao.BLOQUEIO_SOLICITADO){
             return true;
@@ -109,6 +114,11 @@ public class Cartao {
 
     public void bloqueia(){
         this.status = StatusCartao.BLOQUEADO;
+    }
+
+    public boolean carteiraJaAssociada(TipoCarteira carteira){
+        if(this.carteiras.contains(carteira)) return true;
+        return false;
     }
 }
 

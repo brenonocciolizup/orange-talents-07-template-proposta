@@ -1,5 +1,6 @@
 package br.com.zupacademy.brenonoccioli.proposta.controller;
 
+import br.com.zupacademy.brenonoccioli.proposta.config.metricas.MetricasPrometheus;
 import br.com.zupacademy.brenonoccioli.proposta.controller.clients.CartaoClient;
 import br.com.zupacademy.brenonoccioli.proposta.controller.form.*;
 import br.com.zupacademy.brenonoccioli.proposta.model.AvisoViagem;
@@ -29,6 +30,8 @@ public class CartaoController {
     ExecutaTransacao executaTransacao;
     @Autowired
     CartaoClient client;
+    @Autowired
+    MetricasPrometheus metricas;
 
 
     @PostMapping("/{idCartao}/biometrias")
@@ -109,6 +112,7 @@ public class CartaoController {
             ConfirmaCarteiraForm confirmaForm = new ConfirmaCarteiraForm(form);
             client.confirmaAssociacaoCarteira(cartao.getNumeroCartao(), confirmaForm);
         }catch (FeignException e){
+            metricas.contaFalhaAssociacaoCarteira();
             return ResponseEntity.status(e.status()).body("Falha ao associar carteira");
         }
 

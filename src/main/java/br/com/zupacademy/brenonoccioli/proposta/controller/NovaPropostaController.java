@@ -57,6 +57,7 @@ public class NovaPropostaController {
                 proposta.atualizaStatus(resultado.getResultadoSolicitacao().getStatusProposta());
                 executor.atualizaEComita(proposta);
             } catch (FeignException e) {
+                metricas.contaFalhaCriacaoDeProposta();
                 log.error(e.getMessage());
                 if (e.status() == HttpStatus.UNPROCESSABLE_ENTITY.value()) {
                     proposta.atualizaStatus(ResultadoSolicitacao.COM_RESTRICAO.getStatusProposta());

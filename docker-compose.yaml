@@ -56,6 +56,11 @@ services:
 #      DATASOURCE_PASSWORD: MySql2019!
 #      CARTOES_URL: http://contas:8888/api
 #      AVALIACAO_URL: http://analise:9999/api
+#      KEYCLOAK_ISSUER_URI: http://keycloak:8080/auth/realms/proposta
+#      KEYCLOAK_JWKS_URI: http://keycloak:8080/auth/realms/proposta/protocol/openid-connect/certs
+#      JAEGER_ENABLE: true
+#      JAEGER_ENDPOINT: http://jaeger:14268/api/traces
+#      JAEGER_SAMPLER: 1
 
 
   keycloak:

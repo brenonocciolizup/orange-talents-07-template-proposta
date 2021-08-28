@@ -1,4 +1,4 @@
-package br.com.zupacademy.brenonoccioli.proposta.controller;
+package br.com.zupacademy.brenonoccioli.proposta.controller.clients;
 
 import br.com.zupacademy.brenonoccioli.proposta.controller.dto.AvisoDto;
 import br.com.zupacademy.brenonoccioli.proposta.controller.dto.BloqueioDto;

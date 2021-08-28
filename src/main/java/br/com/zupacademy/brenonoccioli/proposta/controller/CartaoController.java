@@ -1,6 +1,6 @@
 package br.com.zupacademy.brenonoccioli.proposta.controller;
 
-import br.com.zupacademy.brenonoccioli.proposta.controller.dto.AvisoDto;
+import br.com.zupacademy.brenonoccioli.proposta.controller.clients.CartaoClient;
 import br.com.zupacademy.brenonoccioli.proposta.controller.form.*;
 import br.com.zupacademy.brenonoccioli.proposta.model.AvisoViagem;
 import br.com.zupacademy.brenonoccioli.proposta.model.Biometria;

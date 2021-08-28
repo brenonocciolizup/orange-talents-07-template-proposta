@@ -1,11 +1,12 @@
-package br.com.zupacademy.brenonoccioli.proposta.utils;
+package br.com.zupacademy.brenonoccioli.proposta.controller.rotinas;
 
-import br.com.zupacademy.brenonoccioli.proposta.controller.CartaoClient;
+import br.com.zupacademy.brenonoccioli.proposta.controller.clients.CartaoClient;
 import br.com.zupacademy.brenonoccioli.proposta.controller.dto.BloqueioDto;
 import br.com.zupacademy.brenonoccioli.proposta.controller.form.BloqueioForm;
 import br.com.zupacademy.brenonoccioli.proposta.model.Cartao;
 import br.com.zupacademy.brenonoccioli.proposta.model.StatusCartao;
 import br.com.zupacademy.brenonoccioli.proposta.repository.CartaoRepository;
+import br.com.zupacademy.brenonoccioli.proposta.utils.ExecutaTransacao;
 import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,7 @@ public class RotinaConfirmaBloqueioNoLegado {
 
     @Scheduled(fixedDelay = 50000)
     public void confirmaBloqueioNoLegado(){
-        log.info("Inicio da rotina notificação de bloqueio ao sistema legado");
+        log.debug("Inicio da rotina notificação de bloqueio ao sistema legado");
 
         BloqueioForm form = new BloqueioForm();
 
@@ -40,9 +41,9 @@ public class RotinaConfirmaBloqueioNoLegado {
                 BloqueioDto dto = client.solicitaBloqueioCartao(cartao.getNumeroCartao(), form);
                 cartao.bloqueia();
                 executaTransacao.atualizaEComita(cartao);
-                log.info("cartão " + cartao.getId() + " bloqueado no legado com sucesso");
+                log.debug("cartão " + cartao.getId() + " bloqueado no legado com sucesso");
            }catch (FeignException fe){
-                log.info("erro ao bloquear cartão " + cartao.getId() + " no legado");
+                log.error("erro ao bloquear cartão " + cartao.getId() + " no legado");
             }
         });
 

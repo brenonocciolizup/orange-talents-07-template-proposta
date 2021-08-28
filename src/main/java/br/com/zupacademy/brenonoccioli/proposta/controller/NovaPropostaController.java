@@ -1,6 +1,7 @@
 package br.com.zupacademy.brenonoccioli.proposta.controller;
 
 import br.com.zupacademy.brenonoccioli.proposta.config.metricas.MetricasPrometheus;
+import br.com.zupacademy.brenonoccioli.proposta.controller.clients.AvaliacaoDadosSolicitanteClient;
 import br.com.zupacademy.brenonoccioli.proposta.controller.dto.*;
 import br.com.zupacademy.brenonoccioli.proposta.controller.form.NovaPropostaForm;
 import br.com.zupacademy.brenonoccioli.proposta.controller.form.SolicitacaoAnaliseForm;

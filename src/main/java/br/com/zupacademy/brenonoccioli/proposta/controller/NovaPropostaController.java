@@ -8,6 +8,7 @@ import br.com.zupacademy.brenonoccioli.proposta.controller.form.SolicitacaoAnali
 import br.com.zupacademy.brenonoccioli.proposta.model.Proposta;
 import br.com.zupacademy.brenonoccioli.proposta.model.StatusProposta;
 import br.com.zupacademy.brenonoccioli.proposta.repository.PropostaRepository;
+import br.com.zupacademy.brenonoccioli.proposta.utils.Criptografia;
 import br.com.zupacademy.brenonoccioli.proposta.utils.ExecutaTransacao;
 import feign.FeignException;
 import org.slf4j.Logger;
@@ -21,6 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,14 +38,16 @@ public class NovaPropostaController {
     ExecutaTransacao executor;
     @Autowired
     MetricasPrometheus metricas;
+    @Autowired
+    Criptografia criptografia;
 
     @PostMapping
     public ResponseEntity criaNovaProposta(@RequestBody @Valid NovaPropostaForm form,
-                                           UriComponentsBuilder builder){
+                                           UriComponentsBuilder builder) {
 
         Logger log = LoggerFactory.getLogger(NovaPropostaController.class);
 
-        if(form.documentoJaExiste(propostaRepository)){
+        if(form.documentoJaExiste(propostaRepository, criptografia.gerarHash(form.getDocumento()))){
             return ResponseEntity.status(422).body("Apenas uma proposta por documento!");
         }
 

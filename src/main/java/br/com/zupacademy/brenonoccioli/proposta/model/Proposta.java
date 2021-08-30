@@ -1,11 +1,13 @@
 package br.com.zupacademy.brenonoccioli.proposta.model;
 
 import br.com.zupacademy.brenonoccioli.proposta.controller.dto.ResultadoSolicitacao;
+import br.com.zupacademy.brenonoccioli.proposta.utils.Criptografia;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.security.NoSuchAlgorithmException;
 
 @Entity
 public class Proposta {
@@ -17,6 +19,10 @@ public class Proposta {
     @NotBlank
     @Column(nullable = false)
     private String documento;
+
+    @NotNull
+    @Column(nullable = false)
+    private byte[] documentoHash;
 
     @NotBlank
     @Column(nullable = false)
@@ -45,7 +51,9 @@ public class Proposta {
 
     public Proposta(String documento, String email, String nome, String endereco,
                     BigDecimal salario) {
-        this.documento = documento;
+        Criptografia criptografia = new Criptografia();
+        this.documento = criptografia.criptografa(documento);
+        this.documentoHash = criptografia.gerarHash(documento);
         this.email = email;
         this.nome = nome;
         this.endereco = endereco;

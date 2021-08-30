@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -87,7 +88,9 @@ public class NovaPropostaController {
             return ResponseEntity.notFound().build();
         }
 
-        AcompanhaPropostaDto dto = new AcompanhaPropostaDto(propostaOptional.get().getStatus());
+        Proposta proposta = propostaOptional.get();
+        String documento =  criptografia.descriptografa(proposta.getDocumento());
+        AcompanhaPropostaDto dto = new AcompanhaPropostaDto(proposta.getStatus(), documento);
 
         return ResponseEntity.ok(dto);
     }
